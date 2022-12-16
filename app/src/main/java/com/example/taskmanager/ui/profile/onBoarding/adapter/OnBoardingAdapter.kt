@@ -1,4 +1,4 @@
-package com.example.taskmanager.ui.onBoarding.adapter
+package com.example.taskmanager.ui.profile.onBoarding.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
