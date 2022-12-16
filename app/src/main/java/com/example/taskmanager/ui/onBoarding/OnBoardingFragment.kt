@@ -29,8 +29,8 @@ class OnBoardingFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val adapter= OnBoardingAdapter(requireContext(), this::onClick)
         binding.viewPager.adapter = adapter
-        val indicator = binding.indicator
-        indicator.setViewPager(binding.viewPager)
+        val indicator = binding.dotsIndicator
+        indicator.attachTo(binding.viewPager)
 
 
     }

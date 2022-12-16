@@ -16,9 +16,9 @@ import com.example.taskmanager.ui.model.OnBoard
 class OnBoardingAdapter(private val context: Context, private val onClick: ()-> Unit)
        : RecyclerView.Adapter<OnBoardingAdapter.onBoardingViewHolder>() {
     private val data = arrayListOf<OnBoard>(
-        OnBoard("https://static.vecteezy.com/system/resources/thumbnails/007/141/522/small_2x/fast-food-set-with-hamburger-and-hotdog-free-vector.jpg","Fast Food"),
-        OnBoard("https://img.freepik.com/premium-vector/fast-online-food-order-and-package-delivery-service-fast-food-shipping-isometric-courier-with-pizza_108855-3468.jpg","Fast Delivery"),
-        OnBoard("https://cdni.iconscout.com/illustration/premium/thumb/payment-method-4438116-3685826.png","Easy Payment"),
+        OnBoard("https://ouch-cdn2.icons8.com/VbsTb9w7IRc3mkrragtZ2p_HUo25J0L8HMW3rcJPKNQ/rs:fit:256:192/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9zdmcvMzA1/LzNmMWQ2NzYxLWJl/NmItNGVmNi04MDFi/LWNjYjE5ZDVkNTNk/Mi5zdmc.png","Food delivery"),
+        OnBoard("https://img.freepik.com/vecteurs-libre/livraison-deballage-colis-reception-commande-controle-du-contenu-boite-personnage-dessin-anime-destinataire-femelle-service-expedition-cible_335657-2562.jpg?w=2000","Document delivery"),
+        OnBoard("https://thumbs.dreamstime.com/b/flower-delivery-modern-vector-cartoon-people-characters-illustration-white-background-high-quality-colorful-composition-141776928.jpg","Flower delivery"),
     )
 
 
