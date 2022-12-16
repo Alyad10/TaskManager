@@ -1,12 +1,12 @@
 package com.example.taskmanager.ui.home.adapter
-
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.taskmanager.Task
+import com.example.taskmanager.ui.model.Task
 import com.example.taskmanager.databinding.ItemTaskBinding
 
-class TaskAdapter(private val data: ArrayList<Task>): RecyclerView.Adapter<TaskAdapter.TaskViewHolder>() {
+class TaskAdapter(): RecyclerView.Adapter<TaskAdapter.TaskViewHolder>() {
+    private val data : ArrayList<Task> = arrayListOf()
 
 
 
@@ -14,9 +14,13 @@ class TaskAdapter(private val data: ArrayList<Task>): RecyclerView.Adapter<TaskA
         return TaskViewHolder(ItemTaskBinding.inflate(LayoutInflater.from(parent.context), parent,
             false))
     }
+    fun addTask(task: Task){
+        data.add(0,task)
+        notifyDataSetChanged()
+    }
 
     override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
-        holder.bind(data.get(position))
+        holder.bind(data[position])
 
     }
 
@@ -25,7 +29,7 @@ class TaskAdapter(private val data: ArrayList<Task>): RecyclerView.Adapter<TaskA
     }
     inner class TaskViewHolder(private val binding : ItemTaskBinding )
         : RecyclerView.ViewHolder(binding.root){
-        fun bind(task:Task) {
+        fun bind(task: Task) {
             binding.tvTitle.text = task.title
             binding.tvDesc.text = task.desc
 
