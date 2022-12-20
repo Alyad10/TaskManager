@@ -1,5 +1,4 @@
 package com.example.taskmanager.ui.home
-
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -17,7 +16,7 @@ class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
 
-    private lateinit var adapter : TaskAdapter
+    private lateinit var adapter: TaskAdapter
     private val binding get() = _binding!!
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,12 +37,12 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.recyclerView.adapter = adapter
-        setFragmentResultListener("rv_task"){key, bundle ->
-            val data: Task =bundle.getSerializable("task") as Task
+        setFragmentResultListener("rv_task") { key, bundle ->
+            val data: Task = bundle.getSerializable("task") as Task
             adapter.addTask(data)
 
         }
-        binding.fab.setOnClickListener{
+        binding.fab.setOnClickListener {
             findNavController().navigate(R.id.taskFragment)
 
         }

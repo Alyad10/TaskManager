@@ -37,7 +37,6 @@ class OnBoardingAdapter(private val context: Context, private val onClick: ()-> 
     }
     inner class onBoardingViewHolder(private val binding: ItemBordingBinding):
         RecyclerView.ViewHolder(binding.root){
-        @SuppressLint("SetTextI18n")
         fun bind(onBoard: OnBoard) {
             Glide.with(binding.imgBoarding).load(onBoard.image).into(binding.imgBoarding)
 
