@@ -1,11 +1,10 @@
 package com.example.taskmanager.ui.home
-
 import android.app.AlertDialog
-import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.taskmanager.App
@@ -45,9 +44,15 @@ class HomeFragment : Fragment(), TaskAdapter.Listener {
         }
 
 
+
     }
 
-    private fun showDialog(task: Task) {
+    override fun onClick(task: Task) {
+        findNavController().navigate(R.id.taskFragment, bundleOf(KEY_FOR_TASK to task))
+    }
+
+
+        private fun showAlert(task: Task) {
         AlertDialog.Builder(context).setTitle("Are you want to delete ${task.title}?")
             .setMessage("Are you sure you want to delete it?")
             .setNegativeButton("NO") { dialog, which ->
@@ -59,13 +64,17 @@ class HomeFragment : Fragment(), TaskAdapter.Listener {
 
             .show()
     }
+    companion object{
+        const val KEY_FOR_TASK ="task"
+    }
 
+
+    override fun onTaskDeleteClickListener(task: Task, position: Int) {
+        showAlert(task)
+    }
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
 
-    override fun onTaskDeleteClickListener(task: Task, position: Int) {
-        showDialog(task)
-    }
 }

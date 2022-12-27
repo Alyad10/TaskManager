@@ -42,10 +42,13 @@ class TaskAdapter(var listener: Listener): RecyclerView.Adapter<TaskAdapter.Task
         fun bind(task: Task, listener: Listener, position: Int) {
             binding.tvTitle.text = task.title
             binding.tvDesc.text = task.desc
-
             itemView.setOnLongClickListener {
                 listener.onTaskDeleteClickListener(task, position)
                 true
+            }
+            itemView.setOnClickListener {
+                listener.onClick(task)
+
             }
 
         }
@@ -55,5 +58,7 @@ class TaskAdapter(var listener: Listener): RecyclerView.Adapter<TaskAdapter.Task
 
     interface Listener{
         fun onTaskDeleteClickListener(task : Task, position: Int)
+        fun onClick(task: Task)
     }
+
 }
