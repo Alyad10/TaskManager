@@ -20,9 +20,8 @@ class OnBoardingAdapter(private val context: Context, private val onClick: ()-> 
 //        OnBoard("https://img.freepik.com/vecteurs-libre/livraison-deballage-colis-reception-commande-controle-du-contenu-boite-personnage-dessin-anime-destinataire-femelle-service-expedition-cible_335657-2562.jpg?w=2000","Document delivery"),
 //        OnBoard("https://thumbs.dreamstime.com/b/flower-delivery-modern-vector-cartoon-people-characters-illustration-white-background-high-quality-colorful-composition-141776928.jpg","Flower delivery"),
           OnBoard(R.raw.task,"Food delivery"),
-        OnBoard(R.raw.task2,"Document delivery"),
-        OnBoard(R.raw.task3,"Flower delivery")
-
+          OnBoard(R.raw.task2,"Document delivery"),
+          OnBoard(R.raw.task3,"Flower delivery")
     )
 
 
