@@ -1,6 +1,7 @@
 package com.example.taskmanager
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
@@ -13,6 +14,8 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.taskmanager.data.Pref
 import com.example.taskmanager.databinding.ActivityMainBinding
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.messaging.FirebaseMessaging
+import com.google.firebase.messaging.FirebaseMessagingService
 
 class MainActivity : AppCompatActivity() {
 
@@ -33,9 +36,9 @@ class MainActivity : AppCompatActivity() {
 
         if (!pref.isOnBoardingSeen())
 
-        navController.navigate(R.id.onBoardingFragment)
+            navController.navigate(R.id.onBoardingFragment)
 
-        if (auth.currentUser == null){
+        if (auth.currentUser == null) {
             navController.navigate(R.id.authFragment)
         }
         val appBarConfiguration = AppBarConfiguration(
@@ -56,14 +59,18 @@ class MainActivity : AppCompatActivity() {
         )
         navController.addOnDestinationChangedListener { controller, destination, arguments ->
             navView.isVisible = navFragments.contains(destination.id)
-            if (destination.id == R.id.onBoardingFragment || destination.id == R.id.authFragment ){
+            if (destination.id == R.id.onBoardingFragment || destination.id == R.id.authFragment) {
                 supportActionBar?.hide()
-            }else supportActionBar?.show()
+            } else supportActionBar?.show()
         }
 
 
-            setupActionBarWithNavController(navController, appBarConfiguration)
-            navView.setupWithNavController(navController)
+        setupActionBarWithNavController(navController, appBarConfiguration)
+        navView.setupWithNavController(navController)
+        FirebaseMessaging.getInstance().token.addOnCompleteListener {
+                Log.e("ololo", "onCreate: " + it.result)
+
         }
+    }
     }
 

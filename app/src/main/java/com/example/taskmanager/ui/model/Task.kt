@@ -10,4 +10,9 @@ data class Task(
     var id: Int? = null,
     var title: String? = null,
     var desc :String? = null,
-): Serializable
+): Serializable {
+    fun isSuccessful(): Boolean {
+        return true
+
+    }
+}

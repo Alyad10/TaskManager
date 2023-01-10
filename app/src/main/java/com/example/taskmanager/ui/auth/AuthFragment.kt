@@ -1,4 +1,5 @@
 package com.example.taskmanager.ui.auth
+
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
@@ -29,29 +30,23 @@ class AuthFragment : Fragment() {
     private lateinit var auth: FirebaseAuth
 
 
-
-
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
 
-    ): View{
+    ): View {
         binding = FragmentAuthBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        auth= FirebaseAuth.getInstance()
+        auth = FirebaseAuth.getInstance()
         oneTapClient = Identity.getSignInClient(requireActivity())
-        signInRequest = BeginSignInRequest.builder()
-            .setGoogleIdTokenRequestOptions(
-                BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
-                    .setSupported(true)
+        signInRequest = BeginSignInRequest.builder().setGoogleIdTokenRequestOptions(
+                BeginSignInRequest.GoogleIdTokenRequestOptions.builder().setSupported(true)
                     .setServerClientId(getString(R.string.default_web_client_id))
-                    .setFilterByAuthorizedAccounts(false)
-                    .build())
-            .build()
+                    .setFilterByAuthorizedAccounts(false).build()
+            ).build()
         binding.btnGoogle.setOnClickListener {
             signInGoogle()
 
@@ -61,48 +56,49 @@ class AuthFragment : Fragment() {
 
     private fun signInGoogle() {
         oneTapClient.beginSignIn(signInRequest).addOnSuccessListener {
-            startIntentSenderForResult(it.pendingIntent.intentSender,REQ_ONE_TAP, null,
-                0,0,0, null)
-        }.addOnFailureListener{
-            Log.e("ololo","signInGoogle: " + it.message)
+            startIntentSenderForResult(
+                it.pendingIntent.intentSender, REQ_ONE_TAP,
+                null, 0, 0, 0, null
+            )
+        }.addOnFailureListener {
+            Log.e("ololo", "signInGoogle: " + it.message)
         }
 
 
     }
+
     @SuppressLint("SuspiciousIndentation")
     override fun onActivityResult(
-        requestCode: Int, resultCode: Int, data: Intent?) {
+        requestCode: Int, resultCode: Int, data: Intent?
+    ) {
         super.onActivityResult(requestCode, resultCode, data)
 
         when (requestCode) {
-            REQ_ONE_TAP ->
-                try {
-                    val credential :SignInCredential= oneTapClient.getSignInCredentialFromIntent(data)
-                    val idToken = credential.googleIdToken
+            REQ_ONE_TAP -> try {
+                val credential: SignInCredential = oneTapClient.getSignInCredentialFromIntent(data)
+                val idToken = credential.googleIdToken
 
-                        if (idToken != null) {
-                            val firebaseCredential = GoogleAuthProvider.getCredential(idToken, null)
-                            auth.signInWithCredential(firebaseCredential)
-                                .addOnCompleteListener(requireActivity(),
-                                    OnCompleteListener<AuthResult?> { task ->
-                                        if (task.isSuccessful) {
-                                            findNavController().navigateUp()
+                if (idToken != null) {
+                    val firebaseCredential = GoogleAuthProvider.getCredential(idToken, null)
+                    auth.signInWithCredential(firebaseCredential).addOnCompleteListener(
+                            requireActivity(),
+                            OnCompleteListener<AuthResult?> { task ->
+                                if (task.isSuccessful) {
+                                    findNavController().navigateUp()
 
-                                        } else {
-                                            Log.e(
-                                                "ololo",
-                                                "onActivityResult: " + task.exception?.message
-                                            )
+                                } else {
+                                    Log.e(
+                                        "ololo", "onActivityResult: " + task.exception?.message
+                                    )
 
-                                        }
-                                    })
-
-                        }
-
-                } catch (e: ApiException) {
-                    e.stackTrace
+                                }
+                            })
                 }
 
+            } catch (e: ApiException) {
+                e.stackTrace
             }
+
         }
     }
+}

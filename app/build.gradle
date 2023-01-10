@@ -50,6 +50,7 @@ dependencies {
     implementation 'androidx.room:room-common:2.4.2'
     implementation 'com.google.firebase:firebase-auth:21.1.0'
     implementation 'com.google.android.gms:play-services-auth:20.1.0'
+    implementation 'com.google.firebase:firebase-database-ktx:20.1.0'
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.4'
@@ -59,6 +60,7 @@ dependencies {
     implementation 'me.relex:circleindicator:2.1.6'
     def lottieVersion = "3.4.0"
     implementation "com.airbnb.android:lottie:$lottieVersion"
+    implementation 'com.google.firebase:firebase-messaging-ktx:23.1.1'
 
 
 
@@ -69,8 +71,9 @@ dependencies {
 
     implementation "androidx.room:room-runtime:$room_version"
     annotationProcessor "androidx.room:room-compiler:$room_version"
-
+    implementation 'com.google.firebase:firebase-firestore-ktx:24.4.1'
     // To use Kotlin annotation processing tool (kapt)
     kapt "androidx.room:room-compiler:$room_version"
 
 }
+

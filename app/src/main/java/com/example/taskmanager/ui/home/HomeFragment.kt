@@ -1,6 +1,7 @@
 package com.example.taskmanager.ui.home
 import android.app.AlertDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +13,9 @@ import com.example.taskmanager.R
 import com.example.taskmanager.databinding.FragmentHomeBinding
 import com.example.taskmanager.ui.home.adapter.TaskAdapter
 import com.example.taskmanager.ui.model.Task
+import com.example.taskmanager.utils.isNetworkConnected
+import com.example.taskmanager.utils.showToast
+import com.google.firebase.firestore.ktx.toObject
 
 class HomeFragment : Fragment(), TaskAdapter.Listener {
 
@@ -34,10 +38,9 @@ class HomeFragment : Fragment(), TaskAdapter.Listener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setData()
 
         binding.recyclerView.adapter = adapter
-        val data = App.db.dao().getAll()
-        adapter.addTasks(data)
         binding.fab.setOnClickListener {
             findNavController().navigate(R.id.taskFragment)
 
@@ -45,12 +48,43 @@ class HomeFragment : Fragment(), TaskAdapter.Listener {
 
 
 
+
+    }
+    private fun setData(){
+        if(requireContext().isNetworkConnected()){
+        getData()
+        }else{
+            val data = App.db.dao().getAll()
+            adapter.addTasks(data)
+        }
+
+    }
+    private fun getData(){
+        App.firebaseDB?.collection("tasks")?.get()?.addOnCompleteListener {
+            if (it.isSuccessful){
+                val data= arrayListOf<Task>()
+
+                for (i in it.result){
+                    val task = i.toObject(Task::class.java)
+                    Log.e("ololo", "getData:" + it.result)
+                    data.add(task)
+                }
+                adapter.addTasks(data)
+            }
+        }
+            ?.addOnFailureListener {
+                Log.e("ololo", "getData:"+ it.message)
+            }
+
     }
 
     override fun onClick(task: Task) {
-        findNavController().navigate(R.id.taskFragment, bundleOf(KEY_FOR_TASK to task))
+        if (!requireContext().isNetworkConnected()) {
+            findNavController().navigate(R.id.taskFragment, bundleOf(KEY_FOR_TASK to task))
+        }else{
+            showToast("Нельзя обновить данные!")
+        }
     }
-
 
         private fun showAlert(task: Task) {
         AlertDialog.Builder(context).setTitle("Are you want to delete ${task.title}?")
@@ -70,8 +104,13 @@ class HomeFragment : Fragment(), TaskAdapter.Listener {
 
 
     override fun onTaskDeleteClickListener(task: Task, position: Int) {
+        if (!requireContext().isNetworkConnected()){
         showAlert(task)
-    }
+    }else{
+            showToast("Нельзя обновить данные!")
+        }
+
+        }
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
